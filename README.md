@@ -1,6 +1,6 @@
 # Submission to the KTC 2023
 
-For this submission we developed a **postprocessing UNet** for EIT segmentation. The postprocessing network is trained on a dataset of synthetic phantoms and simulated measurements.
+For this submission, we developed a **postprocessing UNet** for EIT segmentation. The postprocessing network is trained on a dataset of synthetic phantoms and simulated measurements.
 
 # Table of contents 
 1. [Usage](#usage)
@@ -11,13 +11,13 @@ For this submission we developed a **postprocessing UNet** for EIT segmentation.
 
 ## Usage
 
-We provide the `enviroment.yml` file to restore the conda enviroment used for the submission. You can create the enviroment using the following command:
+We provide the `enviroment.yml` file to restore the conda enviroment used for the submission. You can create the environment using the following command:
 
 ```
 conda env create -f environment.yml
 ```
 
-The network weights are stored [here](https://seafile.zfn.uni-bremen.de/d/faaf3799e6e247198a23/). We precomputed the Jacobian for an empty watertank, as well as some other matrices (smoothness regulariser, node coordinates). This eliminates the need to install Fenics in the enviroment. All of these matrices are available [here](https://seafile.zfn.uni-bremen.de/d/9108bc95b2e84cd285f8/) and have to be stored in *data/*. The script `main.py` can be used reconstruct phantoms: 
+The network weights are stored [here](https://seafile.zfn.uni-bremen.de/d/faaf3799e6e247198a23/). We precomputed the Jacobian for an empty water tank, as well as some other matrices (smoothness regulariser, node coordinates). This eliminates the need to install FEniCS in the environment. All of these matrices are available [here](https://seafile.zfn.uni-bremen.de/d/9108bc95b2e84cd285f8/) and have to be stored in *data/*. The script `main.py` can be used reconstruct phantoms: 
 
 ```
 python main.py /path_to_input_folder /path_to_ouput_folder difficulty_level
@@ -33,7 +33,7 @@ Our goal is to train a postprocessing UNet,
 
 $$ f_\theta(\mathcal{R}(U)) \approx \sigma_\text{segmentation} $$
 
-to predict the segmentation of the conductivty $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this semgentation map on the $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the diffusion model as a convolutional neural network and are independent of the underlying mesh. 
+to predict the segmentation of the conductivity $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this segmentation map on the $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the diffusion model as a convolutional neural network and are independent of the underlying mesh. 
 
 ### Initial Reconstructions
 
@@ -54,6 +54,7 @@ In total, we use five different combinations of $\alpha_1, \alpha_2$ and $\alpha
 
 ### Synthetic Training Data
 
+For the creation of the training dataset, we implemented the complete electrode model and the linearized Jacobian matrix in FEniCS to use our own mesh and speed up the calculations. Here, we use continuous piece wise linear functions for the potential and piece wise constant functions for the reconstruction of the conductivity. 
 
 ## Examples
 
