@@ -17,7 +17,7 @@ We provide the `enviroment.yml` file to restore the conda enviroment used for th
 conda env create -f environment.yml
 ```
 
-The network weights are stored at **upload files here**. The script `main.py` can be used reconstruct phantoms: 
+The network weights are stored [here](https://seafile.zfn.uni-bremen.de/d/faaf3799e6e247198a23/). We precomputed the Jacobian for an empty watertank, as well as some other matrices (smoothness regulariser, node coordinates). This eliminates the need to install Fenics in the enviroment. All of these matrices are available [here](https://seafile.zfn.uni-bremen.de/d/9108bc95b2e84cd285f8/) and have to be stored in *data/*. The script `main.py` can be used reconstruct phantoms: 
 
 ```
 python main.py /path_to_input_folder /path_to_ouput_folder difficulty_level
