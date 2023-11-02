@@ -61,18 +61,18 @@ For the creation of the training dataset, we implemented the complete electrode 
 ## Evaluation
 
 
-We evaluate the postprocessing UNet w.r.t. the [score function](https://www.fips.fi/KTC2023_Instructions_v3_Oct12.pdf) used in the challenge. 
+We evaluate the postprocessing UNet w.r.t. the [score function](https://www.fips.fi/KTC2023_Instructions_v3_Oct12.pdf) used in the challenge. In the following we present the mean score over the four challenge phantoms:
 
 
 | Level         |    Score       |
 |---------------|----------------|
-| 1            | $X.XXX$       |
-| 2            | $X.XXX$       |
-| 3            | $X.XXX$       |
-| 4            | $X.XXX$       |
-| 5            | $X.XXX$       |
-| 6            | $X.XXX$       |
-| 7            | $X.XXX$       |
+| 1            | $0.873$       |
+| 2            | $0.881$       |
+| 3            | $0.866$       |
+| 4            | $0.838$       |
+| 5            | $0.791$       |
+| 6            | $0.643$       |
+| 7            | $0.681$       |
 
 
 ## Authors
