@@ -5,9 +5,6 @@ https://zenodo.org/record/8252370
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
-import scipy.signal as sps
-
 from skimage.metrics import structural_similarity as ssim
 
 def Otsu(image, nvals, figno):

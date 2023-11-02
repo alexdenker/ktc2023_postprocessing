@@ -1,7 +1,7 @@
 
 
-import numpy as np 
-import scipy.signal as sps
+import numpy as np
+from scipy.ndimage import convolve1d
 
 def Otsu2(image, nvals, figno):
     # three class Otsu's method to find the semgentation point of sigma
@@ -75,15 +75,15 @@ def ssim(truth, reco):
     ws = np.ceil(2*r)
     wr = np.arange(-ws, ws+1)
     ker =  (1/np.sqrt(2*np.pi)) * np.exp(-0.5 * np.divide(wr**2, r**2))[None]
-    correction = convolve2d(np.ones(truth.shape), ker, mode='same')
-    gt = np.divide(convolve2d(truth, ker, mode='same'), correction)
-    gr = np.divide(convolve2d(reco, ker, mode='same'), correction)
+    correction = convolve2d(np.ones(truth.shape), ker, mode='constant')
+    gt = np.divide(convolve2d(truth, ker, mode='constant'), correction)
+    gr = np.divide(convolve2d(reco, ker, mode='constant'), correction)
     mu_t2 = np.square(gt)
     mu_r2 = np.square(gr)
     mu_t_mu_r = np.multiply(gt, gr)
-    sigma_t2 = np.divide(convolve2d(np.square(truth), ker, mode='same'), correction) - mu_t2
-    sigma_r2 = np.divide(convolve2d(np.square(reco), ker, mode='same'), correction) - mu_r2
-    sigma_tr = np.divide(convolve2d(np.multiply(truth, reco), ker, mode='same'), correction) - mu_t_mu_r
+    sigma_t2 = np.divide(convolve2d(np.square(truth), ker, mode='constant'), correction) - mu_t2
+    sigma_r2 = np.divide(convolve2d(np.square(reco), ker, mode='constant'), correction) - mu_r2
+    sigma_tr = np.divide(convolve2d(np.multiply(truth, reco), ker, mode='constant'), correction) - mu_t_mu_r
     num = np.multiply((2*mu_t_mu_r + c1), (2*sigma_tr + c2))
     den = np.multiply((mu_t2 + mu_r2 + c1), (sigma_t2 + sigma_r2 + c2))
     ssimimage = np.divide(num, den)
@@ -91,8 +91,4 @@ def ssim(truth, reco):
     return score
 
 def convolve2d(img, kernel, mode):
-    return sps.convolve(sps.convolve(img, kernel, mode=mode), kernel.T, mode=mode)
-
-
-
-
+    return convolve1d(convolve1d(img, kernel[0], axis=0, mode=mode), kernel[0], axis=1, mode=mode)

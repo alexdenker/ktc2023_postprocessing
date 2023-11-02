@@ -17,13 +17,13 @@ from src import get_model, LinearisedRecoFenics, FastScoringFunction
 
 
 level_to_model_path = { 
-    1: "postprocessing_model/version_01/",   #"/localdata/AlexanderDenker/KTC2023/level_cond_unet/version_01/model.pt"
-    2: "postprocessing_model/version_01/",
-    3: "postprocessing_model/version_01/",
-    4: "postprocessing_model/version_01/",
-    5: "postprocessing_model/version_01/",
-    6: "postprocessing_model/version_01/",
-    7: "postprocessing_model/version_01/",
+    1: "postprocessing_model/version_01/model.pt",
+    2: "postprocessing_model/version_01/model.pt",
+    3: "postprocessing_model/version_01/model.pt",
+    4: "postprocessing_model/version_01/model.pt",
+    5: "postprocessing_model/version_01/model.pt",
+    6: "postprocessing_model/version_01/model.pt",
+    7: "postprocessing_model/version_01/model.pt",
 }
 
 
@@ -101,10 +101,10 @@ def coordinator(args):
         sigma_reco = np.stack([delta_sigma_0, delta_sigma_1, delta_sigma_2, delta_sigma_3, delta_sigma_4])
 
         reco = torch.from_numpy(sigma_reco).float().to(device).unsqueeze(0)
-        level = torch.tensor([level]).to("cuda")
+        level_input = torch.tensor([level]).to("cuda")
 
         with torch.no_grad():
-            pred = model(reco, level)
+            pred = model(reco, level_input)
 
             pred_softmax = F.softmax(pred, dim=1)
             pred_argmax = torch.argmax(pred_softmax, dim=1).cpu().numpy()[0,:,:]

@@ -18,7 +18,7 @@ from ..ktc_methods import create_tv_matrix, SMPrior
 
 class LinearisedRecoFenics():
     def __init__(self, Uref, B, vincl, mesh_name="dense", 
-                    base_path = "/home/adenker/projects/ktc2023/dl_for_ktc2023/data",
+                    base_path = "data",
                     version2=True, noise_level=(0.05, 0.01)):
         """
         Uref: reference measurements from empty water-tank
