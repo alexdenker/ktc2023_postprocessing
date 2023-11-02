@@ -15,9 +15,15 @@ import matplotlib.pyplot as plt
 from configs.postprocessing_config import get_configs
 from src import get_model, LinearisedRecoFenics
 
-# This hardcoded path will change 
-path_to_model = {
-    1: "/localdata/AlexanderDenker/KTC2023/diffusion_models/level_1/version_01/model_training.pt"
+
+level_to_model_path = { 
+    1: "postprocessing_model/version_01/",   #"/localdata/AlexanderDenker/KTC2023/level_cond_unet/version_01/model.pt"
+    2: "postprocessing_model/version_01/",
+    3: "postprocessing_model/version_01/",
+    4: "postprocessing_model/version_01/",
+    5: "postprocessing_model/version_01/",
+    6: "postprocessing_model/version_01/",
+    7: "postprocessing_model/version_01/",
 }
 
 
@@ -54,7 +60,7 @@ def coordinator(args):
     config = get_configs()
         
     model = get_model(config)
-    model.load_state_dict(torch.load("/localdata/AlexanderDenker/KTC2023/level_cond_unet/version_01/model.pt"))
+    model.load_state_dict(torch.load(level_to_model_path[level]))
     model.eval()
     model.to(device)
 
