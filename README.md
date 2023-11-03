@@ -52,7 +52,7 @@ In total, we use five different combinations of $\alpha_1, \alpha_2$ and $\alpha
 
 To deal with the different difficulty levels of the challenge, we added the level $l$ as an additional input to the model, i.e.
 
-$$ f_\theta(\mathcal{R}_{\alpha_l}(U), l) \approx \sigma_\text{segmentation}. $$
+$$ f_\theta(\mathcal{R}(U), l) \approx \sigma_\text{segmentation}. $$
 
 Additionally, for each level we used different hyperparameters $\alpha_l$ for the initial reconstruction. These hyperparameters were found with a random search w.r.t. to the four phantoms provided by the organisers.  
 
