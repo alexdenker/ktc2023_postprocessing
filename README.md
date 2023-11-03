@@ -17,7 +17,7 @@ We provide the `enviroment.yml` file to restore the conda enviroment used for th
 conda env create -f environment.yml
 ```
 
-The network weights are stored [here](https://seafile.zfn.uni-bremen.de/d/faaf3799e6e247198a23/). We precomputed the Jacobian for an empty water tank, as well as some other matrices (smoothness regulariser, node coordinates). This eliminates the need to install FEniCS in the environment. All of these matrices are available [here](https://seafile.zfn.uni-bremen.de/d/9108bc95b2e84cd285f8/) and have to be stored in *data/*. The script `main.py` can be used reconstruct phantoms: 
+The network weights are stored [here](https://seafile.zfn.uni-bremen.de/d/faaf3799e6e247198a23/). We precomputed the Jacobian for an empty water tank, as well as some other matrices (smoothness regulariser, node coordinates). This eliminates the need to install FEniCS in the environment. All of these matrices are available [here](https://seafile.zfn.uni-bremen.de/d/9108bc95b2e84cd285f8/) and have to be stored in *data/*. The script `main.py` can be used to reconstruct phantoms: 
 
 ```
 python main.py /path_to_input_folder /path_to_ouput_folder difficulty_level
@@ -33,13 +33,13 @@ Our goal is to train a postprocessing UNet,
 
 $$ f_\theta(\mathcal{R}(U)) \approx \sigma_\text{segmentation} $$
 
-to predict the segmentation of the conductivity $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this segmentation map on the $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the diffusion model as a convolutional neural network and are independent of the underlying mesh. 
+to predict the segmentation of the conductivity $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this segmentation map on a $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the diffusion model as a convolutional neural network and the method is independent of the underlying mesh.
 
 ### Initial Reconstructions
 
 We use linearised time-difference reconstructions for the conditional input. Computing this linearised time-difference reconstruction amounts to solving a regularised least squares problem
 
-$$ \Delta \sigma = (J_{\sigma_0} \Gamma_e^{-1} J + \alpha_1 R_\text{SM} + \alpha_2 R_\text{Laplace} + \alpha_3 R_\text{NOSER})^{-1} J_{\sigma_0}^T \Gamma_e^{-1} \Delta U, $$
+$$ \Delta \sigma = (J_{\sigma_0} \Gamma_e^{-1} J_{\sigma_0} + \alpha_1 R_\text{SM} + \alpha_2 R_\text{Laplace} + \alpha_3 R_\text{NOSER})^{-1} J_{\sigma_0}^T \Gamma_e^{-1} \Delta U, $$
 
 where $J_{\sigma_0}$ is the Jacobian w.r.t. to a constant background conductivity, $\Gamma_e^{-1}$ is the noise precision matrix and $\Delta U = U^\delta - F(\sigma_0)$ is the difference of the measurements. For $F(\sigma_0)$ we make use of the provided measurements of the empty water tank. 
 
@@ -51,13 +51,15 @@ In total, we use five different combinations of $\alpha_1, \alpha_2$ and $\alpha
 ### Training
 
 To deal with the different difficulty levels of the challenge, we added the level $l$ as an additional input to the model, i.e.
-$$ f_\theta(\mathcal{R}_{\alpha_l}(U), l) \approx \sigma_\text{segmentation}, $$
-additionally for each level we used different hyperparemters $\alpha_l$ for the initial reconstruction. These hyperparameters were found with a random search w.r.t. to the four phantoms provided by the organisers.  
+
+$$ f_\theta(\mathcal{R}_{\alpha_l}(U), l) \approx \sigma_\text{segmentation}. $$
+
+Additionally, for each level we used different hyperparameters $\alpha_l$ for the initial reconstruction. These hyperparameters were found with a random search w.r.t. to the four phantoms provided by the organisers.  
 
 
 ### Synthetic Training Data
 
-For the creation of the training dataset, we implemented the complete electrode model and the linearized Jacobian matrix in FEniCS to use our own mesh and speed up the calculations. Here, we use continuous piece wise linear functions for the potential and piece wise constant functions for the reconstruction of the conductivity. We create synthetic conductivity images postprocessing model. For this, we simulate a random number (1 to 4) of objects inside the water tank. Here, we are using circles, random polygons and hand-drawn objects. We make sure that these objects do not overlap. Each object is then randomly assigned to be either conductive or resistive. Using this method, we create ~15.000 images per challenge level.
+For simulation, we used the forward operator provided by the organisers with the dense mesh. For the reconstruction process, we used a customized mesh. Further, we implemented the complete electrode model in FEniCS. This allows us to directly compute the Jacobian for the linearised reconstruction with FEniCS. Here, we use continuous piece-wise linear functions for the potential and piece-wise constant functions for the reconstruction of the conductivity. We create synthetic conductivity images to train the conditional diffusion model. For this, we simulate a random number (1 to 4) of objects inside the water tank. In this context, we use circles, random polygons, and hand-drawn objects. We ensure that these elements do not intersect or overlap. Each object is then randomly assigned to be either conductive or resistive. Using this method, we create ~15.000 images per challenge level.
 
 ## Examples
 ### Level 1
