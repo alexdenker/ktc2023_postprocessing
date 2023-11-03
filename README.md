@@ -50,11 +50,14 @@ In total, we use five different combinations of $\alpha_1, \alpha_2$ and $\alpha
 
 ### Training
 
-### Forward Operator 
+To deal with the different difficulty levels of the challenge, we added the level $l$ as an additional input to the model, i.e.
+$$ f_\theta(\mathcal{R}_{\alpha_l}(U), l) \approx \sigma_\text{segmentation}, $$
+additionally for each level we used different hyperparemters $\alpha_l$ for the initial reconstruction. These hyperparameters were found with a random search w.r.t. to the four phantoms provided by the organisers.  
+
 
 ### Synthetic Training Data
 
-For the creation of the training dataset, we implemented the complete electrode model and the linearized Jacobian matrix in FEniCS to use our own mesh and speed up the calculations. Here, we use continuous piece wise linear functions for the potential and piece wise constant functions for the reconstruction of the conductivity. 
+For the creation of the training dataset, we implemented the complete electrode model and the linearized Jacobian matrix in FEniCS to use our own mesh and speed up the calculations. Here, we use continuous piece wise linear functions for the potential and piece wise constant functions for the reconstruction of the conductivity. We create synthetic conductivity images postprocessing model. For this, we simulate a random number (1 to 4) of objects inside the water tank. Here, we are using circles, random polygons and hand-drawn objects. We make sure that these objects do not overlap. Each object is then randomly assigned to be either conductive or resistive. Using this method, we create ~15.000 images per challenge level.
 
 ## Examples
 ### Level 1
@@ -162,6 +165,6 @@ We evaluate the postprocessing UNet w.r.t. the [score function](https://www.fips
 
 - Alexander Denker<sup>1</sup>, Tom Freudenberg<sup>1</sup>, Željko Kereta<sup>2</sup>, Imraj RD Singh<sup>2</sup>, Tobias Kluth<sup>1</sup>, Simon Arridge <sup>2</sup>
 
-<sup>1</sup>Center of Industrial Mathematics (ZeTeM), University of Bremen
+<sup>1</sup>Center of Industrial Mathematics (ZeTeM), University of Bremen, Bibliothekstr. 5, 28359 Bremen, Germany.
 
-<sup>2</sup>Department of Computer Science, University College London
+<sup>2</sup>Department of Computer Science, University College London, 66-72 Gower St, WC1E 6EA, London, United Kingdom.
