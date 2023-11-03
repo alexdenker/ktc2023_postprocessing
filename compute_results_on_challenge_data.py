@@ -27,6 +27,7 @@ level_to_model_path = {
 }
 
 
+
 # regularisation parameters for initial reconstruction 
 level_to_alphas = {
     1 : [[1956315.789, 0.,0.],[0., 656.842 , 0.],[0.,0.1,6.105],[1956315.789/3., 656.842/3,6.105/3.], [1e4, 0.1,5.]], 
@@ -58,7 +59,9 @@ def coordinator(args):
     model.eval()
     model.to(device)
 
-
+    save_path = f"examples/level_{level}/"
+    save_path = Path(save_path)
+    save_path.mkdir(parents=True, exist_ok=True)
 
     y_ref = loadmat(f"ChallengeData/level_{level}/ref.mat")
     Injref = y_ref["Injref"]
@@ -109,11 +112,24 @@ def coordinator(args):
             pred_softmax = F.softmax(pred, dim=1)
             pred_argmax = torch.argmax(pred_softmax, dim=1).cpu().numpy()[0,:,:]
 
-        challenge_score = FastScoringFunction(x, pred_argmax)
-        mean_score += challenge_score
-        print(f"Score on data {i} is: {challenge_score}")
+        #challenge_score = FastScoringFunction(x, pred_argmax)
+        #mean_score += challenge_score
+        #print(f"Score on data {i} is: {challenge_score}")
 
-    print(f"Mean score at level {level} is: {mean_score/4.}")
+        fig, (ax1, ax2) = plt.subplots(1,2)
+
+        ax1.imshow(x)
+        ax1.set_title("Ground truth")
+        ax1.axis("off")
+
+        ax2.imshow(pred_argmax)
+        ax2.set_title("Prediction")
+        ax2.axis("off")
+
+        plt.savefig(os.path.join(save_path, f"img_{i}.png"))
+        plt.close()
+
+    #print(f"Mean score at level {level} is: {mean_score/4.}")
 
 
 if __name__ == '__main__':

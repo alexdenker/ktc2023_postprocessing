@@ -57,9 +57,92 @@ In total, we use five different combinations of $\alpha_1, \alpha_2$ and $\alpha
 For the creation of the training dataset, we implemented the complete electrode model and the linearized Jacobian matrix in FEniCS to use our own mesh and speed up the calculations. Here, we use continuous piece wise linear functions for the potential and piece wise constant functions for the reconstruction of the conductivity. 
 
 ## Examples
+### Level 1
+
+<p float="left">
+  <img src="examples/level_1/img_1.png" width="49%" />
+  <img src="examples/level_1/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_1/img_3.png" width="49%" />
+  <img src="examples/level_1/img_4.png" width="49%" />
+</p>
+
+### Level 2
+
+<p float="left">
+  <img src="examples/level_2/img_1.png" width="49%" />
+  <img src="examples/level_2/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_2/img_3.png" width="49%" />
+  <img src="examples/level_2/img_4.png" width="49%" />
+</p>
+
+
+### Level 3
+
+<p float="left">
+  <img src="examples/level_3/img_1.png" width="49%" />
+  <img src="examples/level_3/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_3/img_3.png" width="49%" />
+  <img src="examples/level_3/img_4.png" width="49%" />
+</p>
+
+### Level 4
+
+<p float="left">
+  <img src="examples/level_4/img_1.png" width="49%" />
+  <img src="examples/level_4/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_4/img_3.png" width="49%" />
+  <img src="examples/level_4/img_4.png" width="49%" />
+</p>
+
+### Level 5
+
+<p float="left">
+  <img src="examples/level_5/img_1.png" width="49%" />
+  <img src="examples/level_5/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_5/img_3.png" width="49%" />
+  <img src="examples/level_5/img_4.png" width="49%" />
+</p>
+
+### Level 6
+
+<p float="left">
+  <img src="examples/level_6/img_1.png" width="49%" />
+  <img src="examples/level_6/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_6/img_3.png" width="49%" />
+  <img src="examples/level_6/img_4.png" width="49%" />
+</p>
+
+### Level 7
+
+<p float="left">
+  <img src="examples/level_7/img_1.png" width="49%" />
+  <img src="examples/level_7/img_2.png" width="49%" />
+</p>
+
+<p float="left">
+  <img src="examples/level_7/img_3.png" width="49%" />
+  <img src="examples/level_7/img_4.png" width="49%" />
+</p>
 
 ## Evaluation
-
 
 We evaluate the postprocessing UNet w.r.t. the [score function](https://www.fips.fi/KTC2023_Instructions_v3_Oct12.pdf) used in the challenge. In the following we present the mean score over the four challenge phantoms:
 
