@@ -33,7 +33,7 @@ Our goal is to train a postprocessing UNet,
 
 $$ f_\theta(\mathcal{R}(U)) \approx \sigma_\text{segmentation} $$
 
-to predict the segmentation of the conductivity $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this segmentation map on a $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the diffusion model as a convolutional neural network and the method is independent of the underlying mesh.
+to predict the segmentation of the conductivity $\sigma$ based on some initial reconstruction $\mathcal{R}(U)$. We directly represent this segmentation map on a $256 \times 256$ pixel grid. Further, the initial reconstruction is also  interpolated to the $256 \times 256$ pixel grid. This has the practical advantage that we can implement the model as a convolutional neural network and the method is independent of the underlying mesh.
 
 Note that the backbone of our approach used exactly the same network architecture as in our other repository.
 
